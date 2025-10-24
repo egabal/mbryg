@@ -65,7 +65,12 @@ def main() -> None:
             results += data["results"]
         else:
             break
-    print(results, file=args.outfile)
+    #print(results, file=args.outfile)
+    for i, result in enumerate(results):
+        if i == 0:
+            print(",".join(result.keys()), file=args.outfile)
+        print(",".join(map(str, result.values())), file=args.outfile)
+
 # --------------------------------------------------
 if __name__ == '__main__':
     main()
