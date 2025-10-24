@@ -8,6 +8,7 @@ Purpose: Rock the Casbah
 import argparse
 import requests 
 import sys
+import csv
 from pprint import pprint
 
 API_URL = 'https://www.vmh.life/_api/metabolites/?search={}'
@@ -66,10 +67,15 @@ def main() -> None:
         else:
             break
     #print(results, file=args.outfile)
-    for i, result in enumerate(results):
-        if i == 0:
-            print(",".join(result.keys()), file=args.outfile)
-        print(",".join(map(str, result.values())), file=args.outfile)
+    # for i, result in enumerate(results):
+    #     if i == 0:
+    #         print(",".join(result.keys()), file=args.outfile)
+    #     print(",".join(map(str, result.values())), file=args.outfile)
+    fieldnames = results[0].keys()
+    writer = csv.DictWriter(args.outfile, fieldnames=fieldnames)
+    writer.writeheader()
+    for result in results:
+        writer.writerow(result)
 
 # --------------------------------------------------
 if __name__ == '__main__':
