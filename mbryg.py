@@ -10,7 +10,7 @@ import requests
 import sys
 from pprint import pprint
 
-API_URL = 'https://www.vmh.life/_api/metabolites/?fullName={}'
+API_URL = 'https://www.vmh.life/_api/metabolites/?search={}'
 
 
 # --------------------------------------------------
