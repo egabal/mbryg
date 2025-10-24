@@ -11,7 +11,8 @@ import sys
 import csv
 from pprint import pprint
 
-API_URL = "https://www.vmh.life/_api/metabolites/?search={}"
+#API_URL = "https://www.vmh.life/_api/metabolites/?search={}"
+API_URL = "https://www.vmh.life/_api/metabolites/?organismtype={}&page_size=4000"
 
 
 # --------------------------------------------------
