@@ -66,8 +66,8 @@ def main() -> None:
             break
     if not results:
         sys.exit(f'Unable to find "{name}"')
-    fieldnames = results[0].keys()
-    writer = csv.DictWriter(args.outfile, fieldnames=fieldnames)
+    fieldnames = list(results[0].keys())
+    writer = csv.DictWriter(args.outfile, fieldnames = fieldnames + ['Compound_ID', 'Pathway_ID', 'Pathway_Name'])
     writer.writeheader()
 
     for result in results:
@@ -80,7 +80,12 @@ def main() -> None:
         for path_id in pathways_ids:
             info = kegg_get(path_id)
             if isinstance(info, dict) and 'NAME' in info:
-                print(f"{compound}: {path_id} → {info['NAME'][0]}")
+                #print(f"{compound}: {path_id} → {info['NAME'][0]}")
+                file_result = result.copy()
+                file_result['Compound_ID'] = kegg_id
+                file_result['Pathway_ID'] = path_id
+                file_result['Pathway_Name'] = info['NAME'][0]
+                writer.writerow(file_result)
 # --------------------------------------------------
 if __name__ == "__main__":
     main()
