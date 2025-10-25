@@ -51,19 +51,18 @@ def main() -> None:
     """ Make a jazz noise here """
 
     args = get_args()
-    reader = csv.DictReader(args.file)
+    reader = csv.DictReader(args.file, delimiter='\t')
 
     for rec in reader:
-        #pprint(rec)
-        print("./smiles2png.py '{}' -o {}".format(
-            rec["smile"],
-            os.path.join(args.outdir, rec["abbreviation"] + ".png")
-        ))
-        break
+        if smile := rec["smile"]:
+            #pprint(rec)
+            print("./smiles2png.py '{}' -o {}".format(
+                smile,
+                os.path.join(args.outdir, rec["abbreviation"] + ".png")
+            ))
+    #print(f"Done, see \"{args.outdir}\"")
 
-    print(f"Done, see \"{args.outdir}\"")
-
-
+    
 # --------------------------------------------------
 if __name__ == '__main__':
     main()
