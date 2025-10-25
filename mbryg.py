@@ -14,8 +14,8 @@ import kegg_pull.map as kmap
 from collections import defaultdict
 
 
-#API_URL = "https://www.vmh.life/_api/metabolites/?search={}"
-API_URL = "https://www.vmh.life/_api/metabolites/?organismtype={}&page_size=5"
+API_URL = "https://www.vmh.life/_api/metabolites/?search={}"
+#API_URL = "https://www.vmh.life/_api/metabolites/?organismtype={}&page_size=5"
 
 
 # --------------------------------------------------
@@ -73,16 +73,11 @@ def main() -> None:
 
     compound_to_pathway = defaultdict(list)
     for result in results:
-        #writer.writerow(result)
         kegg_id = result['keggId']
-        #print(kegg_id)
+        if not kegg_id:
+            continue
         pathways = kmap.entries_link(entry_ids=[kegg_id], target_database='pathway')
-        print(pathways)
-    #     key = f"cpd:{kegg_id}"
-    #     if key in pathways:
-    #         compound_to_pathway[kegg_id] = pathways[key]
-    # print(compound_to_pathway)
-
+    pprint(pathways)
 # --------------------------------------------------
 if __name__ == "__main__":
     main()
