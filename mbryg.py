@@ -11,11 +11,10 @@ import sys
 import csv
 from pprint import pprint
 import kegg_pull.map as kmap
-from collections import defaultdict
+from KEGGRESTpy import kegg_link, kegg_get
 
 
 API_URL = "https://www.vmh.life/_api/metabolites/?search={}"
-#API_URL = "https://www.vmh.life/_api/metabolites/?organismtype={}&page_size=5"
 
 
 # --------------------------------------------------
@@ -71,13 +70,17 @@ def main() -> None:
     writer = csv.DictWriter(args.outfile, fieldnames=fieldnames)
     writer.writeheader()
 
-    compound_to_pathway = defaultdict(list)
     for result in results:
         kegg_id = result['keggId']
         if not kegg_id:
             continue
         pathways = kmap.entries_link(entry_ids=[kegg_id], target_database='pathway')
-    pprint(pathways)
+    for compound, pathways_ids in pathways.items():
+        pathways[compound] = {}
+        for path_id in pathways_ids:
+            info = kegg_get(path_id)
+            if isinstance(info, dict) and 'NAME' in info:
+                print(f"{compound}: {path_id} → {info['NAME'][0]}")
 # --------------------------------------------------
 if __name__ == "__main__":
     main()
