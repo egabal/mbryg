@@ -10,6 +10,9 @@ import requests
 import sys
 import csv
 from pprint import pprint
+import kegg_pull.map as kmap
+from collections import defaultdict
+
 
 #API_URL = "https://www.vmh.life/_api/metabolites/?search={}"
 API_URL = "https://www.vmh.life/_api/metabolites/?organismtype={}&page_size=5"
@@ -67,12 +70,18 @@ def main() -> None:
     fieldnames = results[0].keys()
     writer = csv.DictWriter(args.outfile, fieldnames=fieldnames)
     writer.writeheader()
-    kegg_ids = []
+
+    compound_to_pathway = defaultdict(list)
     for result in results:
         #writer.writerow(result)
-        kegg_ids.append(result['keggId'])
-    pprint(kegg_ids)
-
+        kegg_id = result['keggId']
+        #print(kegg_id)
+        pathways = kmap.entries_link(entry_ids=[kegg_id], target_database='pathway')
+        print(pathways)
+    #     key = f"cpd:{kegg_id}"
+    #     if key in pathways:
+    #         compound_to_pathway[kegg_id] = pathways[key]
+    # print(compound_to_pathway)
 
 # --------------------------------------------------
 if __name__ == "__main__":
