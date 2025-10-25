@@ -14,8 +14,8 @@ import kegg_pull.map as kmap
 from KEGGRESTpy import kegg_link, kegg_get
 
 
-API_URL = "https://www.vmh.life/_api/metabolites/?search={}"
-
+#API_URL = "https://www.vmh.life/_api/metabolites/?search={}"
+API_URL = "https://www.vmh.life/_api/metabolites/?organismtype={}&page_size=4000"
 
 # --------------------------------------------------
 def get_args():
@@ -66,21 +66,33 @@ def main() -> None:
             break
     if not results:
         sys.exit(f'Unable to find "{name}"')
-    fieldnames = results[0].keys()
-    writer = csv.DictWriter(args.outfile, fieldnames=fieldnames)
+    fieldnames = list(results[0].keys())
+    writer = csv.DictWriter(args.outfile, fieldnames = fieldnames + ['Compound_ID', 'Pathway_ID', 'Pathway_Name'])
     writer.writeheader()
 
     for result in results:
-        kegg_id = result['keggId']
-        if not kegg_id:
-            continue
-        pathways = kmap.entries_link(entry_ids=[kegg_id], target_database='pathway')
-    for compound, pathways_ids in pathways.items():
-        pathways[compound] = {}
-        for path_id in pathways_ids:
-            info = kegg_get(path_id)
-            if isinstance(info, dict) and 'NAME' in info:
-                print(f"{compound}: {path_id} → {info['NAME'][0]}")
+        result['Compound_ID'] = ''
+        result['Pathway_ID'] = ''
+        result['Pathway_Name'] = ''
+        if kegg_id := result['keggId']:
+             # if you want all human pathways, use organism_id = "hsa"
+            if kegg_id.lower() in ["human", "hsa"]:
+                pathways = kegg_link("pathway", "hsa")   # get all human pathways
+                compound = "human"
+            else:
+                pathways = kmap.entries_link(entry_ids=[kegg_id], target_database='pathway')
+                compound = kegg_id
+
+            # iterate properly through the mapping dictionary
+            for compound_id, pathways_ids in pathways.items():
+                for path_id in pathways_ids:
+                    info = kegg_get(path_id)
+                    if isinstance(info, dict) and 'NAME' in info:
+                        result['Compound_ID'] = compound
+                        result['Pathway_ID'] = path_id
+                        result['Pathway_Name'] = info['NAME'][0]
+        writer.writerow(result)
+
 # --------------------------------------------------
 if __name__ == "__main__":
     main()
