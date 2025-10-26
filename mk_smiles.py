@@ -57,14 +57,15 @@ def main() -> None:
 
     for rec in reader:
         if smile := rec["smile"]:
-            # pprint(rec)
             outfile = os.path.join(args.outdir, rec["abbreviation"] + ".png")
             if not os.path.isfile(outfile):
+                print(rec["abbreviation"])
                 rv, out = getstatusoutput(
                     f"./smiles2png.py '{smile}' -o {outfile}"
                 )
                 if rv != 0:
-                    sys.exit(out)
+                    print(out, file=sys.stderr)
+    
 
     print(f'Done, see "{args.outdir}"')
 

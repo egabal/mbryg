@@ -9,14 +9,18 @@ def metabolite_list():
     with open(DB_FILE) as csvfile:
         reader = csv.DictReader(csvfile)
         html = '<link rel="stylesheet" href="{}">'.format(url_for('static', filename='styles.css'))
-        html += '<main class="container"><h1>Chemical List</h1><ul class="compound-list">'
-        compounds_seen = set()
+        html += '<main class="container"><h1>Metabolite List</h1><ul class="compound-list">'
+        compounds_seen = dict()
         for row in reader:
             compound_id = row["Compound_ID"]
             full_name = row.get("fullName", "Unknown name")
             if compound_id not in compounds_seen:
-                compounds_seen.add(compound_id)
-                html += f'<li><a href="/compound/{compound_id}">{full_name}</a></li>'
+                compounds_seen[compound_id] = full_name
+
+    
+        for compound_id in sorted(compounds_seen):
+            full_name = compounds_seen[compound_id]
+            html += f'<li><a href="/compound/{compound_id}">{full_name} = {compound_id}</a></li>'
         html += '</ul></main>'
         return html
 
