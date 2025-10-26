@@ -51,15 +51,14 @@ def main() -> None:
     """ Make a jazz noise here """
 
     args = get_args()
-    reader = csv.DictReader(args.file, delimiter='\t')
+    reader = csv.DictReader(args.file)
 
     for rec in reader:
         if smile := rec["smile"]:
             #pprint(rec)
-            print("./smiles2png.py '{}' -o {}".format(
-                smile,
-                os.path.join(args.outdir, rec["abbreviation"] + ".png")
-            ))
+            outfile = os.path.join(args.outdir, rec["abbreviation"] + ".png")
+            if not os.path.isfile(outfile):
+                print(f"./smiles2png.py '{smile}' -o {outfile}")
     #print(f"Done, see \"{args.outdir}\"")
 
     

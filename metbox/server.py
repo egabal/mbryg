@@ -2,10 +2,11 @@ from flask import Flask, url_for
 import csv
 
 app = Flask(__name__)
+DB_FILE = 'human_mets.csv'
 
 @app.route("/")
 def metabolite_list():
-    with open('db.csv', newline='') as csvfile:
+    with open(DB_FILE) as csvfile:
         reader = csv.DictReader(csvfile)
         html = '<link rel="stylesheet" href="{}">'.format(url_for('static', filename='styles.css'))
         html += '<main class="container"><h1>Chemical List</h1><ul class="compound-list">'
@@ -22,7 +23,7 @@ def metabolite_list():
 
 @app.route('/compound/<compound_id>')
 def show_compound(compound_id):
-    with open('db.csv', newline='') as csvfile:
+    with open(DB_FILE) as csvfile:
         reader = csv.DictReader(csvfile)
 
         html = '<link rel="stylesheet" href="{}">'.format(url_for('static', filename='styles.css'))
@@ -32,6 +33,7 @@ def show_compound(compound_id):
         pathways = set()
 
         for row in reader:
+            print(row)
             if row['Compound_ID'] == compound_id:
                 if not full_name:
                     full_name = row.get("fullName", "Unknown chemical")
@@ -48,8 +50,8 @@ def show_compound(compound_id):
             for pid, pname in sorted(pathways):
                 html += f"<tr><td>{pid}</td><td>{pname}</td></tr>"
             html += "</table>"
-            # if row["smile"]:
-            #     html += "<img src='/images/" + row["abbreviation"] + ".png'>"
+            if row["smile"]:
+                html += "<img src='/images/" + row["abbreviation"] + ".png'>"
             html += "<a class='back' href='/'>← Back to list</a></main>"
             return html
 
