@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """
-Author : pfb <pfb@localhost>
-Date   : 2025-10-24
-Purpose: Retrieve metabolite information from Virtual Human Metabolic Atlas
-         and map each metabolite to its KEGG pathways.
+Author : Esraa Gabal & Juliana <esraa.gabal93@gmail.com>
+Date   : 2025-10-25
+Purpose: pfb2025 project (CSHL: Programming for Biology)
 """
 
 import argparse

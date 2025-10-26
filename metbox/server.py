@@ -1,42 +1,49 @@
 from flask import Flask, url_for
 import csv
 
+"""
+Author : Esraa Gabal & Juliana <esraa.gabal93@gmail.com>
+Date   : 2025-10-25
+Purpose: pfb2025 project (CSHL: Programming for Biology)
+"""
+
 app = Flask(__name__)
 
 # -----------------------------------------------------------
-# HOME PAGE — shows just "Human"
+# HOME PAGE — shows Human with an icon
 # -----------------------------------------------------------
 @app.route("/")
 def homepage():
     html = '<link rel="stylesheet" href="{}">'.format(url_for('static', filename='styles.css'))
-    html += (
-        '<main class="container">'
-        '<h1>Organisms</h1>'
-        '<ul class="compound-list">'
-        f'<li><a href="/human">Human</a></li>'
-        '</ul>'
-        '</main>'
-    )
+    html += '''
+    <main class="container">
+      <h1>Organisms</h1>
+      <ul class="compound-list">
+        <li>
+          <a href="/human" class="human-link">
+            🧬 <span>Human</span>
+          </a>
+        </li>
+      </ul>
+    </main>
+    '''
     return html
 
 
 # -----------------------------------------------------------
-# HUMAN PAGE — shows list of human metabolites
+# HUMAN PAGE — list of metabolites
 # -----------------------------------------------------------
 @app.route("/human")
 def metabolite_list():
     with open('human_mets_new.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         compounds = {}
-
-        # collect compound_id → full_name pairs
         for row in reader:
             compound_id = row["Compound_ID"]
             full_name = row.get("fullName", "Unknown name")
             if compound_id not in compounds:
                 compounds[compound_id] = full_name
 
-        # sort alphabetically by full name
         sorted_compounds = sorted(compounds.items(), key=lambda x: x[1].lower())
 
         html = '<link rel="stylesheet" href="{}">'.format(url_for('static', filename='styles.css'))
@@ -49,7 +56,7 @@ def metabolite_list():
 
 
 # -----------------------------------------------------------
-# COMPOUND DETAILS PAGE — shows pathways and info
+# COMPOUND DETAILS PAGE
 # -----------------------------------------------------------
 @app.route('/compound/<compound_id>')
 def show_compound(compound_id):
