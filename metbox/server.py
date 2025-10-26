@@ -41,6 +41,7 @@ def metabolite_list():
         for row in reader:
             compound_id = row["Compound_ID"]
             full_name = row.get("fullName", "Unknown name")
+            abbreviation = row.get("abbreviation")
             if compound_id not in compounds:
                 compounds[compound_id] = full_name
 
@@ -49,7 +50,7 @@ def metabolite_list():
         html = '<link rel="stylesheet" href="{}">'.format(url_for('static', filename='styles.css'))
         html += '<main class="container"><h1>Human Metabolites</h1><ul class="compound-list">'
         for compound_id, full_name in sorted_compounds:
-            html += f'<li><a href="/compound/{compound_id}">{full_name}</a></li>'
+            html += f'<li><a href="/compound/{compound_id}">{full_name}">{abbreviation}</a></li>'
         html += '</ul>'
         html += "<a class='back' href='/'>← Back to main</a></main>"
         return html
@@ -66,6 +67,7 @@ def show_compound(compound_id):
         html = '<link rel="stylesheet" href="{}">'.format(url_for('static', filename='styles.css'))
         html += '<main class="container">'
         full_name = ""
+        abbreviation = ""
         description = ""
         pathways = set()
 
@@ -73,6 +75,8 @@ def show_compound(compound_id):
             if row['Compound_ID'] == compound_id:
                 if not full_name:
                     full_name = row.get("fullName", "Unknown chemical")
+                    abbreviation = row.get("abbreviation", "N/A") 
+                    image_url = url_for('static', filename=f'images/{abbreviation}.png')
                     description = row.get("description", "No description available")
                 pathways.add((row["Pathway_ID"], row["Pathway_Name"]))
 
@@ -80,6 +84,8 @@ def show_compound(compound_id):
             html += f"<h1>{full_name}</h1>"
             html += f"<p><strong>Compound ID:</strong> {compound_id}</p>"
             html += f"<p><strong>Description:</strong> {description}</p>"
+            html += f'<p><img src="{image_url}" alt="{abbreviation}" style="max-width:250px; display:block; margin:20px auto;"></p>'
+            html += f"<p><strong>Abbreviation:</strong> {abbreviation}</p>"
 
             html += "<h2>Associated Pathways</h2>"
             html += "<table class='data-table'><tr><th>Pathway ID</th><th>Pathway Name</th></tr>"
@@ -91,3 +97,4 @@ def show_compound(compound_id):
 
         else:
             return f"<main class='container'><h1>Compound {compound_id} not found</h1><a class='back' href='/human'>← Back</a></main>"
+
