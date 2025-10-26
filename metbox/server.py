@@ -3,7 +3,27 @@ import csv
 
 app = Flask(__name__)
 
+# -----------------------------------------------------------
+# HOME PAGE — shows just "Human"
+# -----------------------------------------------------------
 @app.route("/")
+def homepage():
+    html = '<link rel="stylesheet" href="{}">'.format(url_for('static', filename='styles.css'))
+    html += (
+        '<main class="container">'
+        '<h1>Organisms</h1>'
+        '<ul class="compound-list">'
+        f'<li><a href="/human">Human</a></li>'
+        '</ul>'
+        '</main>'
+    )
+    return html
+
+
+# -----------------------------------------------------------
+# HUMAN PAGE — shows list of human metabolites
+# -----------------------------------------------------------
+@app.route("/human")
 def metabolite_list():
     with open('human_mets_new.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -20,13 +40,17 @@ def metabolite_list():
         sorted_compounds = sorted(compounds.items(), key=lambda x: x[1].lower())
 
         html = '<link rel="stylesheet" href="{}">'.format(url_for('static', filename='styles.css'))
-        html += '<main class="container"><h1>Chemical List</h1><ul class="compound-list">'
+        html += '<main class="container"><h1>Human Metabolites</h1><ul class="compound-list">'
         for compound_id, full_name in sorted_compounds:
             html += f'<li><a href="/compound/{compound_id}">{full_name}</a></li>'
-        html += '</ul></main>'
+        html += '</ul>'
+        html += "<a class='back' href='/'>← Back to main</a></main>"
         return html
 
 
+# -----------------------------------------------------------
+# COMPOUND DETAILS PAGE — shows pathways and info
+# -----------------------------------------------------------
 @app.route('/compound/<compound_id>')
 def show_compound(compound_id):
     with open('human_mets_new.csv', newline='') as csvfile:
@@ -55,8 +79,8 @@ def show_compound(compound_id):
             for pid, pname in sorted(pathways):
                 html += f"<tr><td>{pid}</td><td>{pname}</td></tr>"
             html += "</table>"
-            html += "<a class='back' href='/'>← Back to list</a></main>"
+            html += "<a class='back' href='/human'>← Back to Human Metabolites</a></main>"
             return html
 
         else:
-            return f"<main class='container'><h1>Compound {compound_id} not found</h1><a class='back' href='/'>← Back</a></main>"
+            return f"<main class='container'><h1>Compound {compound_id} not found</h1><a class='back' href='/human'>← Back</a></main>"
