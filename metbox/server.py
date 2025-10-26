@@ -26,6 +26,13 @@ def homepage():
         </li>
       </ul>
     </main>
+    
+        <a href="/microbiota" class="microbiota-link">
+            🦠 <span>Gut Microbiota</span>
+          </a>
+        </li>
+      </ul>
+    </main>
     '''
     return html
 
@@ -54,7 +61,6 @@ def metabolite_list():
         html += '</ul>'
         html += "<a class='back' href='/'>← Back to main</a></main>"
         return html
-
 
 # -----------------------------------------------------------
 # COMPOUND DETAILS PAGE
@@ -98,4 +104,27 @@ def show_compound(compound_id):
 
         else:
             return f"<main class='container'><h1>Compound {compound_id} not found</h1><a class='back' href='/human'>← Back</a></main>"
+
+# -----------------------------------------------------------
+# GUT MICROBIOTA PAGE — list of species
+# -----------------------------------------------------------
+@app.route("/microbiota")
+def species_list():
+    import csv
+
+    species = []
+    with open('./microbes/bacteria_sp.csv', newline='', encoding='utf-8') as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            if len(row) > 0:
+                species.append(row[0].strip())  # first column = species name
+    html = f'<link rel="stylesheet" href="{url_for("static", filename="styles.css")}">'
+    html += '<main class="container"><h1>Gut Microbiota Species</h1><ul class="compound-list">'
+    for name in species:
+        html += f'<li>{name}</li>'
+    html += '</ul>'
+    html += "<a class='back' href='/'>← Back to main</a></main>"
+    return html
+
+
 

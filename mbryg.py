@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Author : Esraa Gabal & Juliana <esraa.gabal93@gmail.com>
+Author : Esraa Gabal <esraa.gabal93@gmail.com> & Julianne Fazekas <julianne_fazekas1@baylor.edu>
 Date   : 2025-10-25
 Purpose: pfb2025 project (CSHL: Programming for Biology)
 """

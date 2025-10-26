@@ -6,6 +6,12 @@
   border-radius: 10px;
 }
 
+.compound-list {
+  list-style-type: none;   
+  padding-left: 0;         
+  margin-left: 0;
+}
+
 .data-table th,
 .data-table td {
   text-align: left;
@@ -46,6 +52,21 @@ body {
 }
 
 .human-link:hover {
+  text-decoration: underline;
+  color: #88bbff;
+}
+
+.microbiota-link {
+  font-size: 30px;           
+  text-decoration: none;
+  color: #6ea8fe;
+  display: flex;
+  align-items: center;
+  gap: 10px;                 
+  margin-top: 10px;
+}
+
+.microbiota-link:hover {
   text-decoration: underline;
   color: #88bbff;
 }
