@@ -8,35 +8,37 @@ Purpose: Rock the Casbah
 import argparse
 import csv
 import os
+import sys
 from typing import NamedTuple, TextIO
-
-from pprint import pprint
+from subprocess import getstatusoutput
 
 
 class Args(NamedTuple):
-    """ Command-line arguments """
+    """Command-line arguments"""
+
     file: TextIO
     outdir: str
 
 
 # --------------------------------------------------
 def get_args() -> Args:
-    """ Get command-line arguments """
+    """Get command-line arguments"""
 
     parser = argparse.ArgumentParser(
-        description='Rock the Casbah',
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        description="Rock the Casbah",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
 
-    parser.add_argument('file',
-                        metavar='STR',
-                        type=argparse.FileType("rt"),
-                        help='SMILE string')
+    parser.add_argument(
+        "file",
+        metavar="STR",
+        type=argparse.FileType("rt"),
+        help="SMILE string",
+    )
 
-    parser.add_argument('-o',
-                        '--outdir',
-                        help='Ouput dir',
-                        metavar='DIR',
-                        default='smiles')
+    parser.add_argument(
+        "-o", "--outdir", help="Ouput dir", metavar="DIR", default="smiles"
+    )
 
     args = parser.parse_args()
 
@@ -48,20 +50,25 @@ def get_args() -> Args:
 
 # --------------------------------------------------
 def main() -> None:
-    """ Make a jazz noise here """
+    """Make a jazz noise here"""
 
     args = get_args()
     reader = csv.DictReader(args.file)
 
     for rec in reader:
         if smile := rec["smile"]:
-            #pprint(rec)
+            # pprint(rec)
             outfile = os.path.join(args.outdir, rec["abbreviation"] + ".png")
             if not os.path.isfile(outfile):
-                print(f"./smiles2png.py '{smile}' -o {outfile}")
-    #print(f"Done, see \"{args.outdir}\"")
+                rv, out = getstatusoutput(
+                    f"./smiles2png.py '{smile}' -o {outfile}"
+                )
+                if rv != 0:
+                    sys.exit(out)
 
-    
+    print(f'Done, see "{args.outdir}"')
+
+
 # --------------------------------------------------
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
