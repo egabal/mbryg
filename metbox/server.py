@@ -50,7 +50,7 @@ def metabolite_list():
         html = '<link rel="stylesheet" href="{}">'.format(url_for('static', filename='styles.css'))
         html += '<main class="container"><h1>Human Metabolites</h1><ul class="compound-list">'
         for compound_id, full_name in sorted_compounds:
-            html += f'<li><a href="/compound/{compound_id}">{full_name}">{abbreviation}</a></li>'
+            html += f'<li><a href="/compound/{compound_id}">{full_name}</a></li>'
         html += '</ul>'
         html += "<a class='back' href='/'>← Back to main</a></main>"
         return html
@@ -84,13 +84,14 @@ def show_compound(compound_id):
             html += f"<h1>{full_name}</h1>"
             html += f"<p><strong>Compound ID:</strong> {compound_id}</p>"
             html += f"<p><strong>Description:</strong> {description}</p>"
-            html += f'<p><img src="{image_url}" alt="{abbreviation}" style="max-width:250px; display:block; margin:20px auto;"></p>'
+            html += f'<p><img src="{image_url}" alt="{abbreviation}" style="max-width:600px; display:block; margin:15px auto;"></p>'
             html += f"<p><strong>Abbreviation:</strong> {abbreviation}</p>"
 
             html += "<h2>Associated Pathways</h2>"
             html += "<table class='data-table'><tr><th>Pathway ID</th><th>Pathway Name</th></tr>"
             for pid, pname in sorted(pathways):
-                html += f"<tr><td>{pid}</td><td>{pname}</td></tr>"
+                kegg_url = f"https://www.genome.jp/dbget-bin/www_bget?{pid}"
+                html += f"<tr><td><a href='{kegg_url}' target='_blank'>{pid}</a></td><td>{pname}</td></tr>"
             html += "</table>"
             html += "<a class='back' href='/human'>← Back to Human Metabolites</a></main>"
             return html
