@@ -48,8 +48,8 @@ def show_compound(compound_id):
             for pid, pname in sorted(pathways):
                 html += f"<tr><td>{pid}</td><td>{pname}</td></tr>"
             html += "</table>"
-            if row["smile"]:
-                html += "<img src='/images/" + row["abbreviation"] + ".png'>"
+            # if row["smile"]:
+            #     html += "<img src='/images/" + row["abbreviation"] + ".png'>"
             html += "<a class='back' href='/'>← Back to list</a></main>"
             return html
 
