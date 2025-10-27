@@ -108,7 +108,7 @@ def show_compound(compound_id):
 @app.route("/microbiota")
 def species_list():
     species = []
-    with open('./microbes/bacteria_sp.csv', newline='', encoding='utf-8') as csvfile:
+    with open('./bacteria_sp.csv', newline='', encoding='utf-8') as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
             if len(row) > 0:
