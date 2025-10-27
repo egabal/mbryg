@@ -116,7 +116,7 @@ body {
 /* HOMEPAGE STYLING — affects .homepage only */
 /* ----------------------------------------- */
 .homepage {
-  background-color: #000;          /* black background */
+  background-color: #171616;          /* black background */
   color: #fff;                     /* white text */
   min-height: 100vh;               /* fills full screen */
   display: flex;
@@ -190,12 +190,8 @@ body {
 /* Logo styling on homepage    */
 /* --------------------------- */
 .logo {
-  width: 220px;                 /* adjust size as needed */
+  width: 300px;                 /* adjust size as needed */
   height: auto;
   margin-bottom: 30px;
   transition: transform 0.3s ease;
-}
-
-.logo:hover {
-  transform: scale(1.05);       /* gentle zoom on hover */
 }
