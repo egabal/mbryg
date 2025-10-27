@@ -31,6 +31,7 @@ body {
 }
 
 
+
 .back {
   display: inline-block;
   margin-top: 20px;
@@ -69,4 +70,118 @@ body {
 .microbiota-link:hover {
   text-decoration: underline;
   color: #88bbff;
+}
+.species_list {
+  list-style-type: none;   
+  padding-left: 0;         
+  margin-left: 0;
+  font-size: 27px
+}
+
+/* -------------------------------------------- */
+/* 🌌 HOMEPAGE ONLY — black centered layout     */
+/* -------------------------------------------- */
+.homepage {
+  background-color: #000;        /* black background */
+  color: #fff;                   /* white text */
+  min-height: 100vh;             /* full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;       /* vertical centering */
+  align-items: center;           /* horizontal centering */
+  text-align: center;
+}
+
+.homepage h1 {
+  font-size: 45px;
+  margin-bottom: 40px;
+  color: #6ea8fe;                /* soft blue title */
+}
+
+.homepage a {
+  font-size: 30px;
+  text-decoration: none;
+  color: #6ea8fe;
+  margin: 20px 0;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.homepage a:hover {
+  transform: scale(1.08);        /* subtle zoom on hover */
+  color: #88bbff;
+}
+
+
+/* ----------------------------------------- */
+/* HOMEPAGE STYLING — affects .homepage only */
+/* ----------------------------------------- */
+.homepage {
+  background-color: #000;          /* black background */
+  color: #fff;                     /* white text */
+  min-height: 100vh;               /* fills full screen */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.homepage h1 {
+  font-size: 100px;
+  color: #d8609a;
+  margin-bottom: 40px;
+}
+
+.homepage a {
+  font-size: 60px;
+  color: #fbfcfe;
+  text-decoration: none;
+  margin: 15px 0;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.homepage a:hover {
+  transform: scale(1.1);
+  color: #88bbff;
+}
+
+/* -------------------------------------- */
+/* ✨ Glowing animation for homepage icons */
+/* -------------------------------------- */
+@keyframes glowPulse {
+  0% {
+    text-shadow: 0 0 5px #6ea8fe, 0 0 10px #6ea8fe, 0 0 20px #6ea8fe;
+  }
+  50% {
+    text-shadow: 0 0 15px #88bbff, 0 0 30px #88bbff, 0 0 45px #88bbff;
+  }
+  100% {
+    text-shadow: 0 0 5px #6ea8fe, 0 0 10px #6ea8fe, 0 0 20px #6ea8fe;
+  }
+}
+
+/* apply the glowing animation only to homepage links */
+.homepage a {
+  animation: glowPulse 2.5s infinite ease-in-out; /* smooth continuous glow */
+}
+
+/* stronger glow on hover */
+.homepage a:hover {
+  animation: glowPulse 1.2s infinite ease-in-out;
+  transform: scale(1.1);
+  color: #a7c9ff;
+}
+
+/* ---------------------------------- */
+/* Homepage footer (authors & contact)*/
+/* ---------------------------------- */
+.authors {
+  margin-top: 60px;
+  font-size: 25;
+  color: #cccccc;
+  text-align: center;
+}
+
+.authors strong {
+  color: #6ea8fe;
 }
