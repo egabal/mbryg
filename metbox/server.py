@@ -21,7 +21,7 @@ def home():
         <img src="{url_for('static', filename='images/IM_presentation.png')}" 
              alt="MetBox Logo" class="logo">
         <h1>METBOX</h1>
-        <a href="/human" class="human-link">🧬 Human Metabolites</a>
+        <a href="/human" class="human-link">🧬 Homo Sapien (Human)</a>
         <a href="/microbiota" class="microbiota-link">🦠 Gut Microbiota</a>
 
         <div class="authors">
