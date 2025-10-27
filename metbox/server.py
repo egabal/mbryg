@@ -16,8 +16,10 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     html = f'<link rel="stylesheet" href="{url_for("static", filename="styles.css")}">'
-    html += """
+    html += f"""
     <main class="homepage">
+        <img src="{url_for('static', filename='images/IM_presentation.png')}" 
+             alt="MetBox Logo" class="logo">
         <h1>METBOX</h1>
         <a href="/human" class="human-link">🧬 Human Metabolites</a>
         <a href="/microbiota" class="microbiota-link">🦠 Gut Microbiota</a>
@@ -29,6 +31,7 @@ def home():
     </main>
     """
     return html
+
 
 
 # -----------------------------------------------------------
