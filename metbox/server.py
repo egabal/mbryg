@@ -39,7 +39,7 @@ def home():
 # -----------------------------------------------------------
 @app.route("/human")
 def metabolite_list():
-    with open('human_mets_new.csv', newline='') as csvfile:
+    with open('human_mets.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         compounds = {}
         for row in reader:
@@ -64,7 +64,7 @@ def metabolite_list():
 # -----------------------------------------------------------
 @app.route('/compound/<compound_id>')
 def show_compound(compound_id):
-    with open('human_mets_new.csv', newline='') as csvfile:
+    with open('human_mets.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
 
         html = '<link rel="stylesheet" href="{}">'.format(url_for('static', filename='styles.css'))
